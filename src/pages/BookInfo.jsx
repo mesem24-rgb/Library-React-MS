@@ -13,7 +13,6 @@ const BookInfo = ({ books, cart, setCart }) => {
     return <h2>Book not found</h2>;
   }
 
-
   function addBookToCart(book) {
     setCart([...cart, { ...book, quantity: 1 }]);
   }
@@ -21,7 +20,6 @@ const BookInfo = ({ books, cart, setCart }) => {
   function bookExistsOnCart() {
     return cart.find((item) => item.id === book.id);
   }
-
 
   return (
     <div id="books__body">
@@ -42,7 +40,8 @@ const BookInfo = ({ books, cart, setCart }) => {
               </figure>
               <div className="book__selected--description">
                 <h2 className="book__selected--title">{book.title}</h2>
-                <Rating rating={book.rating} />
+                <Rating rating={Math.min(Math.round(book.rating * 2) / 2, 5)} />
+
                 <div className="book__selected--price">
                   <Price
                     originalPrice={book.originalPrice}
@@ -73,13 +72,13 @@ const BookInfo = ({ books, cart, setCart }) => {
                   </p>
                 </div>
                 {bookExistsOnCart() ? (
-                  <Link to={`books/${book.id}`} className="book__link">
+                  <Link to="/cart" className="book__link">
                     <button className="btn">Checkout</button>
                   </Link>
                 ) : (
                   <button className="btn" onClick={() => addBookToCart(book)}>
-        {bookExistsOnCart() ? "In Cart" : "Add to Cart"}
-      </button>
+                    {bookExistsOnCart() ? "In Cart" : "Add to Cart"}
+                  </button>
                 )}
               </div>
             </div>

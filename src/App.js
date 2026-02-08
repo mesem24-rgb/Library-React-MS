@@ -10,7 +10,7 @@ import Cart from "./pages/Cart";
 
 import { books } from "./data";
 import ScrollToTop from "./components/ScrollToTop";
-
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -22,8 +22,8 @@ function App() {
   function changeQuantity(book, quantity) {
     setCart(
       cart.map((item) =>
-        item.id === book.id ? { ...item, quantity: quantity } : item
-      )
+        item.id === book.id ? { ...item, quantity: quantity } : item,
+      ),
     );
   }
 
@@ -31,9 +31,9 @@ function App() {
     setCart(cart.filter((book) => book.id !== id));
   }
 
-function numberOfItems() {
-  return cart.reduce((total, book) => total + (book.quantity || 1), 0);
-}
+  function numberOfItems() {
+    return cart.reduce((total, book) => total + (book.quantity || 1), 0);
+  }
 
   useEffect(() => {
     console.log(cart);
@@ -42,8 +42,9 @@ function numberOfItems() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
-        <Nav numberOfItems={numberOfItems} />
+      <div className="app">
+        <Nav numberOfItems={numberOfItems()} />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books books={books} />} />
